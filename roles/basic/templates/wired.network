@@ -1,0 +1,10 @@
+[Match]
+Name={{ network_device }}
+
+[Network]
+{% for address in ip_addresses %}
+Address={{ address }}
+{% endfor %}
+{% for gateway in ip_gateways %}
+Gateway={{ gateway }}
+{% endfor %}

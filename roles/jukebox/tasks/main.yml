@@ -1,0 +1,19 @@
+---
+- name: "JUKEBOX | Install"
+  git:
+    src: https://github.com/ngollon/jukebox
+    dest: /usr/local/jukebox
+
+-name: "JUKEBOX | Create library"
+  file:
+    path: /srv/library
+    owner: pi
+    group: pi
+    state: directory
+
+- name: "JUKEBOX | Start Service"
+  service:
+    name: jukebox.service
+    state: started
+    enabled: yes
+    daemon-reload: yes

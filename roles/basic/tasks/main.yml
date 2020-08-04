@@ -1,0 +1,57 @@
+---
+- name: "BASIC | Setting hostname"
+  hostname:
+    name: "{{ hostname }}"
+
+- name: "BASIC | Allow ansible user to access apt"
+  lineinfile:
+    path: /etc/sudoers.d/ansible-allow-to-sudo-pacman
+    state: present
+    line: "ansible ALL=(ALL) NOPASSWD: /usr/bin/pacman"
+    validate: /usr/sbin/visudo -cf %s
+    create: yes
+
+- name: "BASIC | Install basic tools"
+  apt:
+    name: [ man, bind ]    
+    state: present
+
+- name: "BASIC | Install shell"
+  apt:
+    name: [ zsh ]    
+    state: present
+
+- name: "BASIC | Configure shell"
+  user:
+    name: "{{ item }}"
+    shell: /bin/zsh
+  loop:
+    - root
+    - pi
+
+- name: "BASIC | Adjust shell config"
+  get_url:
+    src: https://git.grml.org/f/grml-etc-core/etc/zsh/zshrc
+    dest: "{{ item }}/.zshrc"
+  loop:
+    - /home/pi
+    - /root
+
+- name: "BASIC | Remove cron"
+  apt:
+    name: [ cronie, cron ]
+    state: absent
+
+- name: "BASIC | Install default services"
+  apt:
+    name: [ fcron ]
+    state: present
+
+- name: "BASIC | Start and enable default services"
+  systemd:
+    name: "{{ item }}"
+    daemon-reload: yes
+    state: started
+    enabled: yes
+  loop:
+    - fcron    

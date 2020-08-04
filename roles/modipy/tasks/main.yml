@@ -1,0 +1,27 @@
+---
+- name: "MODIPY | Import package key"
+  shell:
+    command: wget -q -O - https://apt.mopidy.com/mopidy.gpg | sudo apt-key add -    
+
+- name: "MODIPY | Import package sources"
+  get_url:
+    src: https://apt.mopidy.com/buster.list
+    dest: /etc/apt/sources.list.d/mopidy.list
+
+- name: "MODIPY | Install required packages"
+  apt:
+    update: yes
+    name: [ modipy, mopidy-mpd, modipy-spotify]    
+    state: present
+  
+#- name: "MODIPY | Configure"
+#  copy: 
+#    src: modipy.conf
+#    dest: /etc/modipy.conf
+  
+- name: "MODIPY | Start"
+  systemd:
+    name: modipy.service
+    state: started
+    enabled: yes
+    daemon_reload: yes

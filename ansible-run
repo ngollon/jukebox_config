@@ -1,0 +1,2 @@
+#!/bin/bash
+sudo -u ansible ansible-playbook -i inventory --vault-password-file ./vault_pass "$@"

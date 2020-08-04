@@ -1,0 +1,116 @@
+ansible_user: ansible
+ansible_become_user: root
+ansible_become_password: "{{ vault_ansible_become_password }}"
+
+network_device: eth0
+ip_addresses: 
+  - 45.129.181.19/22
+  - 2a03:4000:47:44c::/64
+ip_gateways: 
+  - 45.129.180.1
+  - fe80::1
+
+makepkg_nonroot_user: ansible
+
+dns_root: ameskamp.de
+dns_prefix: ""
+base_domain: "{{ dns_prefix }}{{ '.' if dns_prefix|length }}{{ dns_root }}"
+
+hostname: ameskamp
+
+migration_script_base: /usr/local/migration
+
+openssl_cipher_suite: "TLS_AES_128_GCM_SHA256:TLS_AES_256_GCM_SHA384:TLS_CHACHA20_POLY1305_SHA256:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384"
+openssl_ssl_protocols: "TLSv1.2 TLSv1.3"
+
+monit_targets: []
+nginx_sites: []
+
+rclone_backup_locations:
+  - src: /srv/mail/
+    dest: OneDrive:Server/mail/
+  - src: /var/lib/rspamd/
+    dest: OneDrive:Server/rspamd/
+  - src: /var/lib/redis/
+    dest: OneDrive:Server/redis/
+  - src: /srv/influxdb/
+    dest: OneDrive:Server/influxdb/
+  - src: /var/lib/grafana/
+    dest: OneDrive:Server/grafana/
+  - src: /var/lib/dovecot/
+    dest: OneDrive:Server/dovecot/
+  - src: /etc/system/
+    dest: OneDrive:Server/system/
+
+rclone_monit_location: OneDrive:Server/redis/
+rclone_monit_max_age: 3
+
+letsencrypt_config:
+  services_to_reload_after_renewal:
+    - nginx.service
+    - exim.service
+    - dovecot.service
+
+ferm_tcp_ports: []
+ferm_udp_ports: []
+
+email_config:
+    old_host: "2a03:4000:6:113::"
+    primary_hostname: "{{ base_domain }}"
+    dkim_selector: server2
+    message_size_limit: "200M"
+    tls_require_ciphers: "{{ openssl_cipher_suite }}"
+    maildir: /srv/mail/{{ base_domain }}/
+    users: "{{ vault_email_users }}"
+
+email_test_accounts:
+  - server: secureimap.t-online.de
+    username: ameskamp.de.test@t-online.de
+    password: "{{ vault_email_test_pass_tonline }}"
+  - server: imap.web.de
+    username: ameskamp.de.test@web.de
+    password: "{{ vault_email_test_pass_web }}"
+  - server: Outlook.office365.com
+    username: ameskamp.de.test@outlook.com
+    password: "{{ vault_email_test_pass_outlook }}"
+  - server: imap.gmail.com
+    username: ameskamp.de.test@gmail.com
+    password: "{{ vault_email_test_pass_gmail }}"
+  - server: imap.aol.com
+    username: ameskamp.de_test@aol.com
+    password: "{{ vault_email_test_pass_aol }}"
+  - server: imap.gmx.net
+    username: ameskamp.de.test@gmx.de
+    password: "{{ vault_email_test_pass_gmx }}"
+
+old_ip4: "5.45.101.162"
+old_ip6: "2a03:4000:6:113::"
+new_ip4: "45.129.181.19"
+new_ip6: "2a03:4000:47:44c::"
+main_ip4: "{{ new_ip4 }}"
+main_ip6: "{{ new_ip6 }}"
+
+getmail_users:
+  - user: jens
+    username: jens.ameskamp@gmx.de
+    password: "{{ vault_gmx_password }}"
+    server: pop.gmx.net
+
+dns_entries:
+  - { record: "@", type: "A", value: "{{ main_ip4 }}" }
+  - { record: "@", type: "AAAA", value: "{{ main_ip6 }}" }
+  - { record: "*", type: "A", value: "{{ main_ip4 }}" }
+  - { record: "*", type: "AAAA", value: "{{ main_ip6 }}" }
+  - { record: "mail", type: "A", value: "{{ main_ip4 }}" }
+  - { record: "mail", type: "AAAA", value: "{{ main_ip6 }}" }
+  - { record: "old", type: "A", value: "{{ old_ip4 }}" }
+  - { record: "old", type: "AAAA", value: "{{ old_ip6 }}" }
+  - { record: "new", type: "A", value: "{{ new_ip4 }}" }
+  - { record: "new", type: "AAAA", value: "{{ new_ip6 }}" }  
+  - { record: "influx", type: "A", value: "{{ new_ip4 }}" }
+  - { record: "influx", type: "AAAA", value: "{{ new_ip6 }}" }  
+  - { record: "@", type: "MX", priority: 10, value: "mail.{{ base_domain }}", solo: true }
+  - { record: "@", type: "CAA", value: "128 issue \"letsencrypt.org\"" }
+  - { record: "www", type: "CNAME", value: "@" }
+  
+absent_dns_entries: []  

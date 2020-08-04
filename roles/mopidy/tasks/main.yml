@@ -1,0 +1,28 @@
+---
+- name: "MOPIDY | Import package key"
+  apt_key:
+    url: https://apt.mopidy.com/mopidy.gpg
+    state: present
+
+- name: "MOPIDY | Import package sources"
+  get_url:
+    url: https://apt.mopidy.com/buster.list
+    dest: /etc/apt/sources.list.d/mopidy.list
+
+- name: "MOPIDY | Install required packages"
+  apt:
+    update_cache: yes
+    name: [ mopidy, mopidy-mpd, mopidy-spotify]    
+    state: present
+  
+#- name: "MODIPY | Configure"
+#  copy: 
+#    src: modipy.conf
+#    dest: /etc/modipy.conf
+  
+#- name: "MODIPY | Start"
+#  systemd:
+#    name: modipy.service
+#    state: started
+#    enabled: yes
+#    daemon_reload: yes

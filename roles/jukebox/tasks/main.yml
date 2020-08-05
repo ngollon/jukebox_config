@@ -7,15 +7,14 @@
 
 - name: "JUKEBOX | Install apt dependencies"
   apt:
-    name: [ python3-pillow, python3-dev python3-pip libfreetype6-dev libjpeg-dev build-essential libopenjp2-7 libtiff5 ]  # According to luma.oled
+    name: [ python3-pillow, python3-dev, python3-pip, libfreetype6-dev, libjpeg-dev, build-essential, libopenjp2-7, libtiff5 ]  # According to luma.oled
     state: present
 
 - name: "JUKEBOX | Install apt dependencies"
   pip: 
     requirements: /usr/local/jukebox/requirements
+    virtualenv: /usr/local/jukebox/venv    
     state: present
-    virtualenv: /usr/local/jukebox
-    virtualenv_command: python3 -m venv
 
 -name: "JUKEBOX | Create library"
   file:

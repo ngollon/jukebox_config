@@ -1,8 +1,8 @@
 ---
 - name: "JUKEBOX | Install"
   git:
-    src: https://github.com/ngollon/jukebox
-    version: modipy
+    repo: https://github.com/ngollon/jukebox
+    version: mopidy
     dest: /usr/local/jukebox
 
 - name: "JUKEBOX | Install apt dependencies"
@@ -26,7 +26,7 @@
   when:
     - ('No virtualenv' in pipenv_venv_check.stderr)
 
--name: "JUKEBOX | Create library"
+- name: "JUKEBOX | Create library"
   file:
     path: "{{ item }}"
     owner: pi

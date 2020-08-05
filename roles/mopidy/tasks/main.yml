@@ -12,17 +12,17 @@
 - name: "MOPIDY | Install required packages"
   apt:
     update_cache: yes
-    name: [ mopidy, mopidy-mpd, mopidy-spotify, mopidy-musicbox ]
+    name: [ mopidy, mopidy-mpd, mopidy-spotify, mpc ]
     state: present
   
 - name: "MOPIDY | Configure"
   template: 
-    src: modipy.conf
-    dest: /etc/modipy.conf
+    src: mopidy.conf
+    dest: /etc/mopidy/mopidy.conf
   
 - name: "MOPIDY | Start"
   systemd:
-    name: modipy.service
+    name: mopidy.service
     state: started
     enabled: yes
     daemon_reload: yes

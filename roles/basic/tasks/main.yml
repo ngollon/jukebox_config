@@ -13,7 +13,7 @@
 
 - name: "BASIC | Install basic tools"
   apt:
-    name: [ man, vim ]    
+    name: [ man, vim, mc ]    
     state: present
 
 - name: "BASIC | Install shell"

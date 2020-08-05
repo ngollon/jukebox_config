@@ -2,10 +2,14 @@
 
 ## Operating System
 - Install Raspbian
+- Install git
+
+      sudo apt install git
+
 - Clone ansible files to /home/pi/jukebox_config
 - Update system
 
-      apt-get update && apt-get upgrade
+      sudo apt update && apt upgrade
 
 - Configure Raspberry PI (raspi-config)
 -- WLAN
@@ -16,15 +20,6 @@
 - Install ansible
 
       apt-get install ansible
-
-- Create user "ansible".
-
-      groupadd sudo
-      useradd -m -G sudo ansible
-
-- Make ansible files readable by ansible user.
-
-      chown -R root:ansible /etc/system
 
 - Set password
 - Create vault_pass file

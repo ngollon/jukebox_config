@@ -1,17 +1,7 @@
 ---
-# This is done first since it could change the facts gathered later
-- hosts: jukebox
-  gather_facts: no
-  become: yes
-  roles:
-    - role: basic
-
-- hosts: jukebox
-  gather_facts: yes
-  tasks: []
-
 - hosts: jukebox
   become: yes
   roles:
-    - role: modipy
-    - role: jukebox
+    #- role: basic
+    - role: mopidy
+    #- role: jukebox

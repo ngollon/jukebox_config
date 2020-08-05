@@ -19,10 +19,14 @@
 
 -name: "JUKEBOX | Create library"
   file:
-    path: /srv/library
+    path: "{{ item }}"
     owner: pi
     group: pi
     state: directory
+  loop:
+    - /srv/library
+    - /srv/library/files
+    - /srv/library/index
 
 - name: "JUKEBOX | Copy service file"
   copy:

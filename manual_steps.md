@@ -14,6 +14,10 @@
 - Configure Raspberry PI (raspi-config)
 -- WLAN
 -- Force Audio out
+- Install mitogen
+
+      wget https://networkgenomics.com/try/mitogen-0.2.9.tar.gz 
+      sudo tar -xvf mitogen-0.2.9.tar.gz /usr/share/mitogen/mitogen-0.2.9/
       
 ## Ansible
 

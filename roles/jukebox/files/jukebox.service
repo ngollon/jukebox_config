@@ -1,0 +1,13 @@
+[Unit]
+Description=Jukebox
+Requires=mopidy.service
+
+[Service]
+User=pi
+Type=simple
+ExecStart=/usr/local/jukebox/start
+WorkingDirectory=/usr/local/jukebox
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

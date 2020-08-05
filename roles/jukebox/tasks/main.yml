@@ -39,9 +39,8 @@
 
 - name: "JUKEBOX | Copy service file"
   copy:
-    src: /usr/local/jukebox/jukebox.service
-    dest: /etc/systemd/system/jukebox.service
-    remote_src: yes
+    src: jukebox.service
+    dest: /etc/systemd/system/jukebox.service    
 
 - name: "JUKEBOX | Start Service"
   service:

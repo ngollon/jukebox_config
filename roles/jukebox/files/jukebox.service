@@ -5,8 +5,8 @@ Requires=mopidy.service
 [Service]
 User=pi
 Type=simple
-ExecStart=/usr/local/jukebox/start
 WorkingDirectory=/usr/local/jukebox
+ExecStart=/usr/bin/pipenv run python3 /usr/local/jukebox/jukebox.py
 Restart=always
 
 [Install]

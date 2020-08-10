@@ -14,6 +14,12 @@
     update_cache: yes
     name: [ mopidy, mopidy-mpd, mopidy-spotify, mpc ]
     state: present
+
+- name: "MOPIDY | Install required pip packages"
+  pip:    
+    executable: /usr/bin/pip3
+    name: [ mopidy-iris ]
+    state: present
   
 - name: "MOPIDY | Configure"
   template: 

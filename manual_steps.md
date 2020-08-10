@@ -14,6 +14,7 @@
 - Configure Raspberry PI (raspi-config)
 -- WLAN
 -- Force Audio out
+-- Enable I2C and Serial
 - Install mitogen
 
       wget https://networkgenomics.com/try/mitogen-0.2.9.tar.gz 

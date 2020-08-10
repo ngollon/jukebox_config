@@ -1,7 +1,6 @@
 # Modipy
-- Configure
--- File and Spotify
 
 # Jukebox
-- Rewrite display access code
-- Add tag to MPD command translation library, based on /srv/library or spotify database
+ - Fix adding songs
+
+# Enable Serial

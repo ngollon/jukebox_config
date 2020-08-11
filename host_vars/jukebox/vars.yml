@@ -4,4 +4,9 @@ ansible_become_password: "{{ vault_ansible_become_password }}"
 
 base_domain: juke.fritz.box
 
+spotify_user: "{{ vault_spotify_user }}"
+spotify_password: "{{ vault_spotify_password }}"
+spotify_id: "{{ vault_spotify_id }}"
+spotify_secret: "{{ vault_spotify_secret }}"
+
 hostname: jukebox

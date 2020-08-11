@@ -2,6 +2,7 @@
 - hosts: jukebox  
   become: yes
   roles:
-    #- role: basic
+    - role: basic
     - role: mopidy
+    - role: nginx
     - role: jukebox

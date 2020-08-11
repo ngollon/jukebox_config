@@ -1,0 +1,16 @@
+server {
+    listen 80;
+    listen [::]:80;
+
+    server_name {{ subdomain }}{{ '.' if subdomain|length }}{{ base_domain }};
+
+   access_log /var/log/nginx/{{ subdomain }}.access.log;
+    error_log /var/log/nginx/{{ subdomain }}.error.log;
+
+    {% if root is defined -%}
+        root {{ root }};
+    {% endif %}
+          
+{% macro def() %}{{ config }}{% endmacro %}
+    {{ def() | indent }}
+}

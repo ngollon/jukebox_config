@@ -1,0 +1,49 @@
+---
+- name: "NGINX | Install required packages"
+  apt:
+    name: nginx
+    state: present
+  
+- name: "NGINX | Configuration directory exists"
+  file:
+    path: /etc/nginx/sites
+    state: directory
+
+- name: "NGINX | Main configuration file"
+  template:
+    src: nginx.conf
+    dest: /etc/nginx/nginx.conf
+  notify: reload nginx
+
+- name: "NGINX | Supplementary configuration files"
+  copy:
+    src: "{{ item }}"
+    dest: "/etc/nginx/{{ item }}"
+  with_items:
+    - mime.types
+    - fastcgi_params
+  notify: reload nginx
+    
+- name: "NGINX | Create server directory"
+  file:
+    path: /srv/http
+    state: directory
+
+- name: "NGINX | Main site"
+  template:
+    src: site
+    dest: /etc/nginx/site/_base_
+    subdomain: ""
+    config: |
+      location / {
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_pass http://localhost:6680/iris;
+      }
+      
+- name: "NGINX | Start"
+  systemd:
+    name: nginx.service
+    state: started
+    enabled: yes
+    daemon_reload: yes

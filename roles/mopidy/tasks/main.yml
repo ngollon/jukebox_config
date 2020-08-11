@@ -25,6 +25,7 @@
   template: 
     src: mopidy.conf
     dest: /etc/mopidy/mopidy.conf
+  notify: restart mopidy
   
 - name: "MOPIDY | Start"
   systemd:
